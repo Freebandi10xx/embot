@@ -1,0 +1,14 @@
+local lp = game.Players.LocalPlayer
+local UIS  game.UserInputService
+
+function getclpl()
+  local clp = nil
+  local cld = math.huge
+  for i,v in pairs(game.Players:GetChildren()) do
+    if v.Name ~= lp.Name and v.Team ~= lp.Team then
+     local mag = (lp.Character.HumanoidRootPart - v.Character.HumanoidRootPart.Position).Magnitude
+     if mag <= cld then cld = mag clp = end
+    end
+  end
+  return clp.Character.Head
+end
