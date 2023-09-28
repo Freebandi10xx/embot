@@ -1,14 +1,42 @@
+--use as youd like but i would appreciate credits
+-- discord is based.eire so contact for inquiries
+
+
 local lp = game.Players.LocalPlayer
 local UIS  game.UserInputService
+local cam = game.Workspace.Camera
+local ccam = cam.CurrentCamera
 
-function getclpl()
+function getclpl(chr) -- gets the closest player
   local clp = nil
   local cld = math.huge
-  for i,v in pairs(game.Players:GetChildren()) do
-    if v.Name ~= lp.Name and v.Team ~= lp.Team then
-     local mag = (lp.Character.HumanoidRootPart - v.Character.HumanoidRootPart.Position).Magnitude
-     if mag <= cld then cld = mag clp = end
+  for i,v in pairs(game.Players:GetChildren()) do --gets all players in the game
+    if v.Name ~= lp.Name and v.Team ~= lp.Team then --team check
+     local mag = (lp.Character.HumanoidRootPart - v.Character.HumanoidRootPart.Position).Magnitude --gets the distance from the player to you
+     if mag <= cld then cld = mag clp = end	--checks if this is the closest player
     end
   end
-  return clp.Character.Head
+  if chr == "head" then 
+	return clp.Character.Head
+	elseif chr == "hmdrp" then
+	return clp.Character.HumanoidRootPart
+	else return clp.Character.Head
+	end
+end
+
+while true do 
+	wait(0.001)
+	if getgenv().Aim ~= true then break end
+	ccam.CFrame = CFrame.new(getclpl("head").CFrame) -- locking on the player
+end
+
+UIS.InputBegan(inp) --detects when you hold right click
+	if inp.UserInputType == Enum.UserInputType.MouseButton2 then
+		getgenv().Aim = true
+	end
+end
+UIS.InputEnded(inp) --detects when you stop holding right click
+	if inp.UserInputType == Enum.UserInputType.MouseButton2 then
+		getgenv().Aim = false
+	end
 end
